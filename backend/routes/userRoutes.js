@@ -7,7 +7,7 @@ var approute=express.Router();
 
 //register
 
-approute.post('/user',myctrl.addUser);
+approute.post('/userData',myctrl.addUser);
 
 
 module.exports = approute;

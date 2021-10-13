@@ -11,9 +11,9 @@ module.exports.addUser=(req,res)=>{
   var usData=new userData({
       firstName:req.body.firstName,
       lastName:req.body.lastName,
-      email:req.body.email,
-      contact:req.body.contact,
       password:req.body.password,
+      contact:req.body.contact,
+      email:req.body.email,
       location:req.body.location
      
   });

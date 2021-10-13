@@ -5,7 +5,10 @@ const routes=require('./routes/userRoutes');
 const cors = require('cors');
 
 const app = express();
-app.use(cors());
+const originOptions ={
+  origin:"*",
+}
+app.use(cors(originOptions));
 app.use(bodyparser.json());
 app.use(bodyparser.urlencoded({extended:true}));
 

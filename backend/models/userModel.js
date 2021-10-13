@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const bcrypt = require("bcrypt");
 
 
-const userSchema = mongoose.Schema({
+const validationSchema = mongoose.Schema({
     firstName: {
         type: String,
         required: [true, "Name should not be left blank"],
@@ -13,20 +13,22 @@ const userSchema = mongoose.Schema({
         type: String,
         required: [true, "Name should not be left blank"],
       },
-      email: {
+      password: {
         type: String,
-        unique: [true, "Email Already Exists"],
+        required: [true, "password should not left empty"],
+        minlength: [4, "Password should be greater than 4"],
       },
       contact: {
         type: String,
         maxlength: [10, "contact must be atleast 10 number long"],
         minlength: [10, "contact must be atleast 10 number long"],
       },
-      password: {
+      email: {
         type: String,
-        required: [true, "password should not left empty"],
-        minlength: [4, "Password should be greater than 4"],
+        unique: [true, "Email Already Exists"],
       },
+     
+    
       location: {
         type: String,
         required: [true, "location should not left empty"]
@@ -36,7 +38,7 @@ const userSchema = mongoose.Schema({
 
     //methods for encrypting password
 
-userSchema.pre("save", function (next) {
+validationSchema.pre("save", function (next) {
     bcrypt.genSalt(15, (err, salt) => {
       bcrypt.hash(this.password, salt, (err, hash) => {
         (this.password = hash), (this.saltString = salt);
@@ -45,8 +47,8 @@ userSchema.pre("save", function (next) {
     });
   });
   
-  userSchema.methods.verifyPassword = function (password) {
+  validationSchema.methods.verifyPassword = function (password) {
     return bcrypt.compareSync(password, this.password);
   };
   
-  mongoose.model("user", userSchema);
+  mongoose.model("user", validationSchema);
